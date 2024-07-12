@@ -2,11 +2,29 @@
 #include <stdlib.h>
 
 
+   using Byte = unsigned char;
+   using Word = unsigned short int;
+   using u32 = unsigned int;
+
+
+struct Memory
+{
+   static constexpr u32 MAX_MEM = 1024 * 64;
+   Byte Data[MAX_MEM];
+   
+   void Initialize()
+   {
+      for (u32 i = 0; i < MAX_MEM; ++i)
+      {
+         Data[i] = 0;
+      }
+   }
+};
+
 
 struct CPU
 {
-   using Byte = unsigned char;
-   using Word = unsigned short int;
+
 
 
    /* Registers
@@ -23,17 +41,22 @@ struct CPU
 
    Word X; //Index Register
 
-
-   void Reset()
+   void Reset( Memory& memory )
    {
-
+      memory.Initialize();
+      CCR = 0x10;
+      Byte lowByte = memory.Data[0xFFFE];
+      Byte highByte = memory.Data[0xFFFF];
+      PC = (highByte << 8) | lowByte;
+      SP = 0x1FFF;
    }
 };
 
 int main()
 {
+   Memory mem;
    CPU cpu;
-   cpu.Reset();
+   cpu.Reset( mem );
     return 0;
 }
 
