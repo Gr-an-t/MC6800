@@ -6,19 +6,36 @@
 struct CPU
 {
    using Byte = unsigned char;
-   using Word = unsigned short;
+   using Word = unsigned short int;
+
+
+   /* Registers
+   ---------------------------*/
+   //8-bit registers
+   Byte A, B; //Accumulator A and B
+
+   Byte CCR; //Condition Code Register
+
+   //16-bit registers
+   Word PC; //Program Counter
+
+   Word SP; //Stack Pointer
+
+   Word X; //Index Register
+
+
+   void Reset()
+   {
+
+   }
 };
 
 int main()
 {
+   CPU cpu;
+   cpu.Reset();
     return 0;
 }
-
-
-
-
-
-
 
 
 
